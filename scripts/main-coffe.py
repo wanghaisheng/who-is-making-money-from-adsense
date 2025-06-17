@@ -20,7 +20,26 @@ HEADERS = {
 RESULTS_DIR = 'results'
 MAX_PAGES = 5
 WAIT_BETWEEN_REQUESTS = 5
-TOP_DOMAINS_FILE = 'top_1m_domains.csv'  # Your top 1M domain list CSV
+# TOP_DOMAINS_FILE = 'top_1m_domains.csv'  # Your top 1M domain list CSV
+
+
+import csv
+
+def load_top_domains(csv_path):
+    top_domains = set()
+    with open(csv_path, newline='', encoding='utf-8') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            if len(row) < 2:
+                continue
+            domain = row[1].strip()
+            if domain:
+                top_domains.add(domain)
+    return top_domains
+
+top_domains = load_top_domains('top-1m.csv')
+print(f"Loaded {len(top_domains)} domains from top-1m list")
+
 
 def get_search_results(query, start=0):
     params = {
