@@ -37,8 +37,6 @@ def load_top_domains(csv_path):
                 top_domains.add(domain)
     return top_domains
 
-top_domains = load_top_domains('top-1m.csv')
-print(f"Loaded {len(top_domains)} domains from top-1m list")
 
 
 def get_search_results(query, start=0):
@@ -67,12 +65,6 @@ def parse_domains(html):
             domains.add(domain.lower())
     return domains
 
-def load_top_domains(filename):
-    if not os.path.exists(filename):
-        print(f"Top domains file '{filename}' not found!")
-        return set()
-    with open(filename, 'r') as f:
-        return set(line.strip().lower() for line in f if line.strip())
 
 def save_domains(domains, date_str, target_domain, top_domains):
     os.makedirs(RESULTS_DIR, exist_ok=True)
@@ -100,7 +92,8 @@ def save_domains(domains, date_str, target_domain, top_domains):
 
 def main():
     date_str = datetime.now().strftime('%Y-%m-%d')
-    top_domains = load_top_domains(TOP_DOMAINS_FILE)
+    top_domains = load_top_domains('top-1m.csv')
+    print(f"Loaded {len(top_domains)} domains from top-1m list")
 
     for target_domain in TARGET_DOMAINS:
         print(f"Starting search for: {target_domain}")
